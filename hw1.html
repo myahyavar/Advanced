@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>T Distrubition</title>
+
+  <style>
+    body { max-width: 440px; }
+    pre  { overflow-x: auto; }
+    input { width: 50px }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+df = <input type=number id=df value=0 onChange="calculate()">
+&emsp;
+p = <input type=number id=p value=1 onChange="calculate()">
+&emsp;
+<span id=res></span>
+<pre id=out><b>Table</b></pre>
+
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+
+<hr />
+
+<script>
+"use strict";
+function qt(p,n,ptype=1) {
+  if (p==0) {
+    return 1/0;
+  }
+  if (p==1) {
+    if (ptype==1) {
+      return -1/0;
+    } else {
+      return 0;
+    }
+  }
+
+  var eps = 1.e-6;
+
+  var p1;
+  if (ptype==1) {
+    if (p > 0.5) {
+      p1 = 1-p;
+    } else {
+      p1 = p;
+    }
+  } else {
+    p1 = 0.5*p;
+  }
+
+  var tmp = (gamnln(n+1) - gamnln(n))/n + (0.5-1.0/n)*Math.log(n);
+  tmp = tmp - Math.log(p1)/n - 0.5*Math.log(Math.PI)/n;
+  var tmax = Math.exp(tmp);
+  var tmin = Math.exp(tmp - (0.5+0.5/n)*Math.log(2.0));
+  if (tmin*tmin < n) { 
+     tmp = Math.exp(gamnln(n) - gamnln(n+1) + 0.5*(n+1)*Math.log(2.0));
+     tmp = tmp*p1*Math.sqrt(n*Math.PI);
+     tmin = Math.sqrt(n)+ Math.sqrt(1.0/n) - tmp;
+     tmin = Math.max(tmin, 0);
+  }
+  if (pt(tmin,n,1) < p1) {
+    console.log("Warning! tmin is wrong!", tmin,p1);
+    tmin = 0.5*tmin;
+    while (pt(tmin,n,1) < p1) {
+        tmin = 0.5*tmin;
+    }
+  }
+  if (pt(tmax,n,1) > p1) {
+    console.log("Warning! tmax is wrong!",tmax,p1);
+    tmax = 2*tmax;
+    while (pt(tmax,n,1) > p1) {
+        tmax = 2*tmax;
+    }
+  }
+  var t = 0.5*(tmin + tmax);
+  while ( tmax - tmin > eps*t) {
+     if (pt(t,n,1) > p1) {
+       tmin = t;
+     } else {
+       tmax = t;
+     }
+     t = 0.5*(tmin+tmax);
+  }
+
+  if (ptype==1 && p > 0.5) {
+    t = -t;
+  }
+  return t;
+}
+function calculate() {
+   let P = Number(p.value)
+    let df = Number(df.value)
+    if (!Number.isInteger(x)) {
+       x = Math.round(x); df.value = x
+    }
+
+    res.innerText = "P(x, λ) = "+ qt(df, p)
+}
+function doTable() {
+    const L = [0.5, 1, 1.5, 2, 2.5, 3]
+    let a = L.map((p) => 'P='+p)
+    let str = header(a)
+    for (let df=0; df<=8; df++) { 
+       let a = L.map((p) =>  qt(df, p))
+       str += oneLine(a, df)
+    }
+    return str
+}
+let header  = (a) => '      '+ a.join('   ')  
+let oneLine = (a, df) => '\nx='+df+'  '+ a.join(' ')
+    
+    title.innerText = document.title
+    sample.innerText = qt+'\n'+doTable
+    calculate()
+    out.innerText = doTable()
+</script>
+
+</body>
+</html>
