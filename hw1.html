@@ -66,14 +66,12 @@ function qt(p,n,ptype=1) {
      tmin = Math.max(tmin, 0);
   }
   if (pt(tmin,n,1) < p1) {
-    console.log("Warning! tmin is wrong!", tmin,p1);
     tmin = 0.5*tmin;
     while (pt(tmin,n,1) < p1) {
         tmin = 0.5*tmin;
     }
   }
   if (pt(tmax,n,1) > p1) {
-    console.log("Warning! tmax is wrong!",tmax,p1);
     tmax = 2*tmax;
     while (pt(tmax,n,1) > p1) {
         tmax = 2*tmax;
@@ -95,16 +93,16 @@ function qt(p,n,ptype=1) {
   return t;
 }
 function calculate() {
-   let P = Number(p.value)
+  
     let df = Number(df.value)
     if (!Number.isInteger(x)) {
        x = Math.round(x); df.value = x
     }
-
-    res.innerText = "P(x, λ) = "+ qt(df, p)
+    let P = Number(p.value)
+    res.innerText = "T(df, P) = "+ qt(df, p)
 }
 function doTable() {
-    const L = [0.5, 1, 1.5, 2, 2.5, 3]
+    const L = [1, 0.5, 0.4, 0.3, 0.2, 0.1]
     let a = L.map((p) => 'P='+p)
     let str = header(a)
     for (let df=0; df<=8; df++) { 
@@ -114,7 +112,7 @@ function doTable() {
     return str
 }
 let header  = (a) => '      '+ a.join('   ')  
-let oneLine = (a, df) => '\nx='+df+'  '+ a.join(' ')
+let oneLine = (a, df) => '\ndf='+df+'  '+ a.join(' ')
     
     title.innerText = document.title
     sample.innerText = qt+'\n'+doTable
