@@ -1,3 +1,1 @@
-Table:
-
-https://www.sjsu.edu/faculty/gerstman/StatPrimer/t-table.pdf
+BLM305 Advanced Prog Techniques
