@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Remote URL or Local file </title>
+
+    <style>
+        body {
+            max-width: 500px;
+        }
+
+        div {
+            margin: 12px 0;
+        }
+
+        img {
+            max-width: 100%;
+            border: 1px solid darkgray;
+        }
+
+        #remote {
+            width: 290px;
+            font: 13px arial, sans-serif;
+            margin: 14px 0;
+            border: 1px solid darkgray;
+            padding: 5px;
+        }
+
+        #sample,
+        #out {
+            overflow-x: auto;
+        }
+
+        #disp1 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id=title></h2>
+
+    <div>
+        URL:
+        <input type=text id=remote onchange='shaFromURL(this.value)'> <br>
+        <input type=file id=button onChange='shaFromFile(this.files[0])'>
+    </div>
+    <div id=msg>Select text or image </div>
+    <pre id=disp1></pre> <img id=disp2 />
+
+    <hr>
+    <b>Sample code</b>
+    <pre id=sample></pre>
+    <hr>
+    <p>Ref: <a href="Reading_files">Reading files</a>
+    </p>
+
+    <script>
+        "use strict";
+
+        function shaFromBuffer(buf) {
+            crypto.subtle.digest('SHA-1', buf)
+                .then(b => disp1.innerText= bufferToHex(b))
+                .catch(console.error,console.log(disp1.innerText))
+        }
+
+        function shaFromFile(f) {
+            f.arrayBuffer()
+                .then(shaFromBuffer)
+        }
+        function shaFromURL(u) {
+            fetch(u).then(r => r.arrayBuffer())
+                .then(shaFromBuffer)
+        }
+        function bufferToHex(buf) {
+            return [...new Uint8Array(buf)].map(toHex).join('')
+        }
+
+        const toHex = b=>b.toString(16).padStart(2,'0')
+
+        title.innerText = document.title
+        sample.innerText = shaFromBuffer + '\n' + shaFromFile+ '\n' +shaFromURL
+    </script>
+
+</body>
+
+</html>
