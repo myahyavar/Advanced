@@ -27,19 +27,24 @@
 <pre id=sample></pre>
 
 <hr />
+<b>Original table</b>
+<p>
+    <img src="rootable.gif">
+    
+</p>
 
 
 <script>
 "use strict";
-function root(x,r,d=4) {
+function root(x,r,d=5) {
     let res= Math.pow(x, 1/r)
     return res.toFixed(d)
 }
 function doTable() {
-    let head = a => '      '+ a.join('   ')
-    const L = [2, 3, 4, 5, 6, 7]
+    let head = a => '      '+ a.join('    ')
+    const L = [2, 3, 4, 5, 6]
     let b = [head(L.map((r) => '√ ='+r))]
-    for (let x=0; x<=9; x++) { 
+    for (let x=1; x<=10; x++) { 
        let a = L.map(r => root(x, r))
        b.push('x='+x+'  '+ a.join(' '))
     }

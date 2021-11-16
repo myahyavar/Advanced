@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>List of Objects </title>
+
+  <style>
+    body { max-width: 500px; }
+    #inp { white-space: pre-wrap; }
+    #sample { overflow-x: auto; }
+    #out { color: blue; }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+<b>Text input &emsp;
+<input type=button id=convert value=Convert onclick="toList()">
+</b>
+<p>
+  <textarea id=inp onchange="convert.disabled=false" rows=10 cols=50 >
+  </textarea>
+</p>
+<b>JSON output</b>
+<pre id=out></pre>
+<hr />
+<b>Sample code</b>
+<pre id=sample></pre>
+<hr />
+
+<script>
+"use strict";
+function toList(str) {
+  function toObject(x) {
+    let b = {}
+    for (let [i,s] of x.split('\t').entries())
+      b[keys[i]] = (isNaN(s)? s : Number(s))
+    return b
+  }
+    if (str) inp.value = str
+    else str = inp.value
+    convert.disabled = true
+    let [d0, ...data] = str.split('\n')
+    let keys = d0.split('\t')
+    console.log("Keys:", keys)
+    let a = data.map(toObject)
+    out.innerText = JSON.stringify(a, '' ,2)
+    console.table(a)
+    return a
+}
+
+
+const MOUNT = `movie	genre	year
+Shining	horror	1980
+FMJ 	war	1987
+scarf	gang	1983
+xorcist	horror	1972
+akira	anime	1988`
+
+    title.innerText = document.title
+    sample.innerText = toList
+    inp.value = MOUNT
+</script>
+
+</body>
+</html>
