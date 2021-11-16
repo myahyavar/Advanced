@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -30,10 +29,8 @@
 <hr />
 <b>Original table</b>
 <p>
-    <img src="rootable.gif">
-    
+    <img src="rootable.gif">   
 </p>
-
 
 <script>
 "use strict";
@@ -56,58 +53,3 @@ out.innerText = doTable()
 </script>
 
 </body>
-=======
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Roots</title>
-
-  <style>
-    body { max-width: 440px; }
-    pre  { overflow-x: auto; }
-    img  { max-width: 100%; }
-    #out {
-        font-size: larger;
-        line-height: 1.4;
-        color: rgb(64, 64, 228);
-    }
-  </style>
-</head>
-
-<body>
-
-<h2>Root Table</h2>
-<pre id=out><b>Table</b></pre>
-
-<hr />
-<b>Sample code</b>
-<pre id=sample></pre>
-
-<hr />
-
-
-<script>
-"use strict";
-function root(x,r,d=4) {
-    let res= Math.pow(x, 1/r)
-    return res.toFixed(d)
-}
-function doTable() {
-    let head = a => '      '+ a.join('   ')
-    const L = [2, 3, 4, 5, 6, 7]
-    let b = [head(L.map((r) => '√ ='+r))]
-    for (let x=0; x<=9; x++) { 
-       let a = L.map(r => root(x, r))
-       b.push('x='+x+'  '+ a.join(' '))
-    }
-    return b.join('\n')
-}
-sample.innerText = root+'\n'+doTable
-out.innerText = doTable()
-</script>
-
-</body>
->>>>>>> 55fa0053cc16ad4e72d752e0c6b9d00121f77a60
-</html>
