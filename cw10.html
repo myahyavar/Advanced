@@ -24,7 +24,7 @@
         Charging : <span id=charge>??</span>
     </p>
     <p>
-        Remaining Time : <span id=rm>??</span>
+        Remaining Time : <span id=remaining>??</span>
     </p>
     <b>Online Status</b>
     <p id=conn>
@@ -32,7 +32,7 @@
     </p>
     <b>Keyboard</b>
     <p id=conn>
-        Pressed Key : <span id=pressKey></span>
+        Pressed Key : <span id=pressed></span>
     </p>
 
     <hr />
@@ -50,9 +50,9 @@
             navigator.getBattery().then(b =>
                 charge.innerText = (b.charging) ? "Charging..." : "Discharging...")
             navigator.getBattery().then(b =>
-                rm.innerText = Math.floor(b.dischargingTime / (3600)) + ":" + b.dischargingTime % 60 + " hours remaining")
+                remaining.innerText = Math.floor(b.dischargingTime / (3600)) + ":" + b.dischargingTime % 60 + " remaining")
             con.innerText = (navigator.onLine) ? "connected" : "offline"
-            onkeydown = event => document.querySelector("#pressKey").innerText = event.key
+            onkeydown = event => document.querySelector("#pressed").innerText = event.key
         }
         title.innerText = document.title;
         sample.innerText = init;
