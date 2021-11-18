@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Event Listeners </title>
+
+    <style>
+        span {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 id=title></h2>
+    <b>Battery Status</b>
+    <p title="Battery level">
+        Battery Level: <span id=level>??</span>
+    </p>
+    <p title="Charging">
+        Charging : <span id=charge>??</span>
+    </p>
+    <p>
+        Remaining Time : <span id=rm>??</span>
+    </p>
+    <b>Online Status</b>
+    <p id=conn>
+        Connection: <span id=con>??</span>
+    </p>
+    <b>Keyboard</b>
+    <p id=conn>
+        Pressed Key : <span id=pressKey></span>
+    </p>
+
+    <hr />
+    <b>Sample code</b>
+    <pre id=sample></pre>
+
+    <hr />
+
+    <script>
+        "use strict";
+        function init() {
+            navigator.getBattery().then(b =>
+                level.innerText = 100 * b.level + '%'
+            )
+            navigator.getBattery().then(b =>
+                charge.innerText = (b.charging) ? "Charging..." : "Discharging...")
+            navigator.getBattery().then(b =>
+                rm.innerText = Math.floor(b.dischargingTime / (3600)) + ":" + b.dischargingTime % 60 + " hours remaining")
+            con.innerText = (navigator.onLine) ? "connected" : "offline"
+            onkeydown = event => document.querySelector("#pressKey").innerText = event.key
+        }
+        title.innerText = document.title;
+        sample.innerText = init;
+        init();
+    </script>
+
+</body>
+
+</html>
