@@ -37,16 +37,17 @@
             out.innerText = t; console.log(t)
         }
         function cause(s) {
-  switch (s) {
-    case 403:
-      return 'Rate limit exceeded'
-    case 404:
-      return usr.value+' not found'
-    default:
-      return 'Status '+s
-  }
-        
-        
+            switch (s) {
+                case 403:
+                    return 'Rate limit exceeded'
+                case 404:
+                    return usr.value + ' not found'
+                default:
+                    return 'Status ' + s
+            }
+        }
+
+
         async function userData() {
             const URL = "https://api.github.com/users/"
             const BR = '<BR>'
@@ -90,7 +91,7 @@
         }
 
         title.innerText = document.title
-        sample.innerText = userData +'\n'+ toJSON
+        sample.innerText = userData + '\n' + toJSON
         out.innerText = "Reading data"
         toJSON()
     </script>
