@@ -22,7 +22,7 @@
 <body>
 
     <h2 id=title></h2>
-    <input type=text id=usr value=maeyler onChange=" toJSON()">
+    <input type=text id=usr value=maeyler onChange="readUser()">
     <p id=out></p>
     <hr />
     <b>Sample code</b>
@@ -32,26 +32,13 @@
 
     <script>
         "use strict";
+        const NL = "\n", BR = "<BR>",
+            URL = "https://api.github.com/users/"
         function error(t) {
             out.style.color = 'red'
             out.innerText = t; console.log(t)
         }
-        function cause(s) {
-            switch (s) {
-                case 403:
-                    return 'Rate limit exceeded'
-                case 404:
-                    return usr.value + ' not found'
-                default:
-                    return 'Status ' + s
-            }
-        }
-
-
-        async function userData() {
-            const URL = "https://api.github.com/users/"
-            const BR = '<BR>'
-            let u = await toJSON(URL + usr.value)
+        function userData(u) {
             if (!u || !u.login) {
                 error(usr.value + ' not found')
                 return
@@ -68,8 +55,7 @@
             let loca = u.location ? u.location : "*not stated*"
             let c = u.company ? u.company : "*not stated*"
             let mail = u.email ? u.email : "*not stated*"
-            out.innerHTML += s + BR + l + BR + ""
-                + BR + "Company :" + c + BR + "Location :" + loca + BR + "Mail :" + mail + BR
+            out.innerHTML += s + BR + l + BR + "" + BR + "Company :" + c + BR + "Location :" + loca + BR + "Mail :" + mail + BR
             let blog = u.blog
             let h = blog
             let a = document.createElement("a")
@@ -79,21 +65,16 @@
             out.appendChild(a)
 
         }
-
-        async function toJSON(url) {
-            try {
-                let r = await fetch(url)
-                if (!r.ok) throw cause(r.status)
-                return r.json()
-            } catch (e) {
-                error(e)
-            }
+        function readUser() {
+            fetch(URL + usr.value)
+                .then(r => r.ok ? r.json() : null)
+                .then(userData).catch(error)
         }
 
         title.innerText = document.title
-        sample.innerText = userData + '\n' + toJSON
+        sample.innerText = userData + NL + readUser
         out.innerText = "Reading data"
-        toJSON()
+        readUser()
     </script>
 
 </body>
