@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SpinWheel</title>
+
+    <style>
+        body {
+            background: gray;
+        }
+
+        .anim {
+            width: 100px;
+            padding: 20px;
+            box-sizing: border-box;
+            animation-duration: infinity;
+        }
+
+        .parnet {
+
+            position: relative;
+            top: 0;
+            left: 0;
+
+        }
+
+        .arri {
+
+            position: relative;
+            right: -126.4px;
+            bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="wheel" src="wheel.png" style="align-self: auto;;" alt="SpinWheel" height="300" width="300">
+
+    <div class="parnet">
+
+        <img class="arri" src="arrow.png" alt="Arrow" height="50" width="50">
+
+    </div>
+
+    <p2>
+        <button style="font-size: large; position: relative; right: -124px; bottom: 20px;" 
+        onclick="Spin()"> Spin!
+        </button>
+
+    </p2>
+
+
+    <script>
+
+        function Spin() {
+
+            document.getElementById("wheel").animate([
+                { transform: 'rotate(360deg)' },
+                { transform: 'rotate(0deg)' },
+            ], {
+                duration: 500,
+                iterations: 6
+            });
+            setTimeout(() => {
+                Stop()
+            }, 3000);
+        }
+
+        function Stop() {
+            rng = Math.floor((Math.random() * 1440) + 360);
+            rotation = (Math.round(rng));
+            console.log((rotation % 360));
+            if (rotation % 360 >= 0 & rotation % 360 < 45)
+                document.body.style.background = "teal"
+            else if ((rotation % 360 >= 45 & rotation % 360 < 90))
+                document.body.style.background = "lawngreen"
+            else if ((rotation % 360 >= 90 & rotation % 360 < 135))
+                document.body.style.background = "yellow"
+            else if ((rotation % 360 >= 135 & rotation % 360 < 180))
+                document.body.style.background = "orange"
+            else if ((rotation % 360 >= 180 & rotation % 360 < 225))
+                document.body.style.background = "red"
+            else if ((rotation % 360 >= 225 & rotation % 360 < 270))
+                document.body.style.background = "purple"
+            else if ((rotation % 360 >= 270 & rotation % 360 < 315))
+                document.body.style.background = "mediumpurple"
+            else if ((rotation % 360 >= 315 & rotation % 360 < 360))
+                document.body.style.background = "blue"
+
+
+            document.getElementById("wheel").style.transform = 'rotate(' + rotation + 'deg)';
+
+        }
+
+    </script>
+
+</body>
+
+</html>
