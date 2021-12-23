@@ -47,7 +47,7 @@
         let leftPressed = false;
         //holding variables for bricks
         //might change depending on difficulty
-        let brickRowCount = 13;
+        let brickRowCount = 10;
         let brickColumnCount = 5;
         let brickWidth = 70;
         let brickHeight = 24;
@@ -66,8 +66,9 @@
                 bricks[c][r] = { x: 0, y: 0, status: 1 };
             }
         }
-
-
+        //added arraow key option for moving the paddle
+        document.addEventListener('keydown', keyDownHandler, false);
+        document.addEventListener('keyup', keyUpHandler, false);
         document.addEventListener("mousemove", mouseMoveHandler, false);
 
         //paddle movement to mouse movement
@@ -75,6 +76,23 @@
             var relativeX = e.clientX - canvas.offsetLeft;
             if (relativeX > 0 && relativeX < canvas.width) {
                 paddleX = relativeX - paddleWidth / 2;
+            }
+        }
+
+        function keyDownHandler(e) {
+            if (e.keyCode === 39) {
+                rightPressed = true;
+            }
+            else if (e.keyCode === 37) {
+                leftPressed = true;
+            }
+        }
+        function keyUpHandler(e) {
+            if (e.keyCode === 39) {
+                rightPressed = false;
+            }
+            else if (e.keyCode === 37) {
+                leftPressed = false;
             }
         }
 
@@ -104,7 +122,7 @@
                         bricks[c][r].y = brickY;
                         ctx.beginPath();
                         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                        ctx.fillStyle = '#6600cc';
+                        ctx.fillStyle = 'blue';
                         ctx.fill();
                         ctx.closePath();
                     }
@@ -169,9 +187,15 @@
             if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
                 dy = -dy;
             }
+            if (rightPressed && paddleX < canvas.width - paddleWidth) {
+                paddleX += 7;
+            }
+            else if (leftPressed && paddleX > 0) {
+                paddleX -= 7;
+            }
             //making the ball move, also affects the angle
-            x += dx; //update x movement every frame
-            y += dy; //update y movement every frame
+            x += dx * 1.2; //update x movement every frame
+            y += dy * 1.5; //update y movement every frame
         }
 
         //Create an infinite loop that creates the ball
